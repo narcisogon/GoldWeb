@@ -1,3 +1,9 @@
+//Firebase stuff
+import { useState, useEffect, cloneElement } from 'react'
+import { db } from './firebaseConfig'
+import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc } from "firebase/firestore"
+import firebaseApp from './firebaseConfig';
+
 // App.js
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -17,6 +23,43 @@ import './App.css';
 import HomePage from './HomePage'; // Add this line
 
 function App() {
+  //state variables for new user input
+  const [newName, setNewName] = useState("");
+  const [newAge, setNewAge] = useState(0);
+  //state variable to store the list of users
+  const [users, setUsers] = useState([]);
+   //reference to the 'users' collection in Firestore
+  const usersCollectionRef = collection(db, "users");
+   //function to create a new user
+  const createUser = async () => {
+    await addDoc(usersCollectionRef, { name: newName, age: Number(newAge) });
+    window.location.reload();
+  }
+  //function to update a user's age
+  const updateUser = async (id, age) => {
+    const userDoc = doc(db, "users", id)
+    const newFields = {age: age + 1}
+    await updateDoc(userDoc, newFields)
+    window.location.reload();
+  }
+  //function to delete a user
+  const deleteUser = async (id) => {
+    const userDoc = doc(db, "users", id);
+    await deleteDoc(userDoc);
+    window.location.reload();
+  }
+  //useEffect hook to fetch users when the component mounts
+  useEffect(() => {
+    //function to get users from Firestore
+    const getUsers = async () => {
+      const data = await getDocs(usersCollectionRef);
+      //map the fetched data to the users state
+      setUsers(data.docs.map((doc) => ({...doc.data(), id: doc.id })));
+    };
+
+    getUsers();
+  }, [])
+
   return (
     <Router>
       <div className="App">
