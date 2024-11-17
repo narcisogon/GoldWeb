@@ -1,91 +1,34 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import Banking from './Banking';
 import Payments from './Payments';
 import Investments from './Investments';
 import FraudDetection from './FraudDetection';
-import heroImage from './hero-image.jpg';
 import "./HomePage.css"
-
+import laptop from "./laptopman.mp4"
 
 function HomePage() {
-  const slides = [
-    {
-      
-      text: 'Open a Credit Card with Great Rewards',
-    },
-    {
-      
-      text: 'Grow Your Savings with Competitive Rates',
-    },
-    {
-      
-      text: 'Start Investing for Your Future',
-    },
-  ];
-
-  const [currentSlide, setCurrentSlide] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentSlide((prevSlide) =>
-        prevSlide === slides.length - 1 ? 0 : prevSlide + 1
-      );
-    }, 5000); // Changes slide every 5 seconds
-    return () => clearInterval(interval);
-  }, [slides.length]);
-
-  const nextSlide = () => {
-    setCurrentSlide((prevSlide) =>
-      prevSlide === slides.length - 1 ? 0 : prevSlide + 1
-    );
-  };
-
-  const prevSlide = () => {
-    setCurrentSlide((prevSlide) =>
-      prevSlide === 0 ? slides.length - 1 : prevSlide - 1
-    );
-  };
-
   return (
     <>
-      <div
-        className="hero-section text-center text-white d-flex align-items-center"
-        style={{
-          backgroundImage: `url(${heroImage})`,
-          height: '50vh',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          position: 'relative',
-        }}
-      >
-        <div className="container position-relative">
-          <h1>Welcome to Goldman Sachs Financial Services</h1>
-          <p>Your trusted partner in financial success</p>
-          <Link to="/open-account">
-            <button className="btn btn-primary">Get Started</button>
+      {/* Video Section with Text */}
+      <div className="video-container">
+        <video
+          className="intro-video"
+          src={laptop}
+          autoPlay
+          loop
+          muted
+          playsInline
+        ></video>
+        <div className="overlay-content text-white">
+          <h1>Invest With Confidence<br />Financial Succcess</h1>
+          <p>
+          Every day, we bring together the brightest minds in finance to empower individuals on their journey to financial growth. Our focus is on serving clients by leveraging insights, resources, and relationships to help navigate complex investment opportunities and achieve long-term financial success.
+          </p>
+          <Link to="/investments">
+            <button className="btn btn-outline-light">See Our Investments</button>
           </Link>
         </div>
-      </div>
-
-      {/* Slideshow Component */}
-      <div className="slideshow-container">
-        {slides.map((slide, index) => (
-          <div
-            key={index}
-            className="slideshow-slide"
-            style={{ display: index === currentSlide ? 'block' : 'none' }}
-          >
-            <img src={slide.image} alt={slide.text} />
-            <div className="slideshow-text">{slide.text}</div>
-          </div>
-        ))}
-        <button className="slideshow-button prev" onClick={prevSlide}>
-          &#10094;
-        </button>
-        <button className="slideshow-button next" onClick={nextSlide}>
-          &#10095;
-        </button>
       </div>
 
       {/* Account Sections */}
@@ -121,3 +64,4 @@ function HomePage() {
 }
 
 export default HomePage;
+

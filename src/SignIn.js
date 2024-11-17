@@ -1,4 +1,3 @@
-// SignIn.js
 import React, { useState } from "react";
 import "./SignIn.css";
 import { FaEye, FaEyeSlash } from "react-icons/fa";

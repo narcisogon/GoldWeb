@@ -67,6 +67,7 @@
     cursor: pointer;
     color: #555;
   }
+  
 
   .remember-me {
     display: flex;
@@ -118,7 +119,6 @@
     text-align: center;
   }
 
-  /* Additional Styles for Capital One Look */
   .signin-container {
     border: 1px solid #e0e0e0;
     border-radius: 6px;
@@ -134,11 +134,26 @@
     margin-bottom: 4px;
   }
 
-  input[type="email"],
-  input[type="password"] {
+  /* Ensure consistent styling for the input field */
+input[type="email"],
+input[type="password"],
+input[type="text"] {
     padding: 12px;
     font-size: 16px;
-  }
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="text"]:focus {
+    outline: none;
+    border-color: #0071ce;
+    box-shadow: 0 0 5px rgba(0, 113, 206, 0.2);
+}
+
 
   .signin-button {
     padding: 14px;
