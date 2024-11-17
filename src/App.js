@@ -7,12 +7,14 @@ import Banking from './Banking';
 import Payments from './Payments';
 import Investments from './Investments';
 import FraudDetection from './FraudDetection';
-import OpenAccount from './OpenAccount'; // New import
-import SendMoney from './SendMoney';     // New import
-import RequestMoney from './RequestMoney'; // New import
-import InvestmentOptions from './InvestmentOptions'; // New import
-import FraudDetectionInfo from './FraudDetectionInfo'; // New import
+import OpenAccount from './OpenAccount';
+import SendMoney from './SendMoney';
+import RequestMoney from './RequestMoney';
+import InvestmentOptions from './InvestmentOptions';
+import FraudDetectionInfo from './FraudDetectionInfo';
 import './App.css';
+// App.js
+import HomePage from './HomePage'; // Add this line
 
 function App() {
   return (
@@ -21,17 +23,16 @@ function App() {
         <Header />
         <main>
           <Routes>
-            <Route
-              path="/"
-              element={
-                <>
-                  <Banking />
-                  <Payments />
-                  <Investments />
-                  <FraudDetection />
-                </>
-              }
-            />
+            {/* Home Route */}
+            <Route path="/" element={<HomePage />} />
+
+            {/* Main Sections */}
+            <Route path="/banking" element={<Banking />} />
+            <Route path="/payments" element={<Payments />} />
+            <Route path="/investments" element={<Investments />} />
+            <Route path="/fraud-detection" element={<FraudDetection />} />
+
+            {/* Additional Routes */}
             <Route path="/open-account" element={<OpenAccount />} />
             <Route path="/send-money" element={<SendMoney />} />
             <Route path="/request-money" element={<RequestMoney />} />
