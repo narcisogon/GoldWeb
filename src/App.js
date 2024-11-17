@@ -13,6 +13,7 @@ import {
   deleteDoc,
   setDoc,
 } from 'firebase/firestore';
+
 import Header from './Header';
 import Footer from './Footer';
 import HomePage from './HomePage';
@@ -29,6 +30,13 @@ import SignIn from './SignIn';
 import SignUp from './SignUp';
 import Dashboard from './Dashboard';
 import PrivateRoute from './PrivateRoute';
+
+// Import investment sub-section components
+import DoItYourselfInvesting from './DoItYourselfInvesting';
+import AutomatedInvesting from './AutomatedInvesting';
+import DedicatedFinancialAdvisor from './DedicatedFinancialAdvisor';
+import TeamBasedWealthManagement from './TeamBasedWealthManagement';
+
 import './App.css';
 
 function App() {
@@ -109,6 +117,12 @@ function App() {
             <Route path="/payments" element={<Payments />} />
             <Route path="/investments" element={<Investments />} />
             <Route path="/fraud-detection" element={<FraudDetection />} />
+
+            {/* Investment Sub-Sections */}
+            <Route path="/investments/do-it-yourself" element={<DoItYourselfInvesting />} />
+            <Route path="/investments/automated" element={<AutomatedInvesting />} />
+            <Route path="/investments/dedicated-advisor" element={<DedicatedFinancialAdvisor />} />
+            <Route path="/investments/team-based-wealth" element={<TeamBasedWealthManagement />} />
 
             {/* Additional Routes */}
             <Route path="/open-account" element={<OpenAccount />} />
