@@ -1,4 +1,3 @@
-// Header.js
 import React, { useContext } from 'react';
 import './Header.css';
 import { Link } from 'react-router-dom';
@@ -7,7 +6,8 @@ import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { AuthContext } from './AuthContext';
 import { auth } from './firebaseConfig';
 import { signOut } from 'firebase/auth';
-import logo from './logo.webp'; // Adjust the path if needed
+import logo from './logo.webp';
+
 
 function Header() {
   const { currentUser } = useContext(AuthContext);
@@ -44,13 +44,24 @@ function Header() {
         </button>
 
         {/* Navigation Links */}
-        <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav me-auto">
-            {/* ...navigation links */}
+        <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
+          <ul className="navbar-nav me-auto nav-links">
+            <li className="nav-item">
+              <Link to="/checking-accounts" className="nav-link hover-underline">Checking Accounts</Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/saving-accounts" className="nav-link hover-underline">Saving Accounts</Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/investments" className="nav-link hover-underline">Investments</Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/tools" className="nav-link hover-underline">Tools</Link>
+            </li>
           </ul>
 
           {/* Sign In/Out Buttons */}
-          <div className="d-flex">
+          <div className="d-flex action-button">
             {currentUser ? (
               <>
                 <span className="text-white me-2">{currentUser.email}</span>
