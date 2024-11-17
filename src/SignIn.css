@@ -1,0 +1,100 @@
+/* SignIn.css */
+
+.signin-container {
+    width: 400px; /* Increased width from 300px to 400px */
+    margin: 50px auto; /* Added top margin for better positioning */
+    padding: 30px; /* Increased padding for more space */
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+  }
+  
+  .logo {
+    width: 150px;
+    margin-bottom: 20px;
+  }
+  
+  h2 {
+    font-size: 28px; /* Increased font size */
+    margin-bottom: 20px;
+  }
+  
+  .signin-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  label {
+    font-size: 16px; /* Increased font size */
+    text-align: left;
+    color: #333;
+    margin-bottom: 5px;
+  }
+  
+  input[type="email"],
+  input[type="password"] {
+    padding: 10px; /* Increased padding */
+    font-size: 16px; /* Increased font size */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+  }
+  
+  .password-input {
+    position: relative;
+  }
+  
+  .toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 12px; /* Adjusted for increased input padding */
+    cursor: pointer;
+    color: #555;
+  }
+  
+  .remember-me {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+  }
+  
+  .signin-button {
+    padding: 12px; /* Increased padding */
+    font-size: 18px; /* Increased font size */
+    color: #fff;
+    background-color: #0072ce;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .signin-button:hover {
+    background-color: #005bb5;
+  }
+  
+  .links {
+    margin-top: 20px;
+  }
+  
+  .links a {
+    display: block;
+    color: #0072ce;
+    font-size: 14px;
+    margin-top: 10px;
+    text-decoration: none;
+  }
+  
+  .links a:hover {
+    text-decoration: underline;
+  }
+  
+  .error-message {
+    color: red;
+    margin-bottom: 15px;
+  }
+  

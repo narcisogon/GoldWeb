@@ -13,9 +13,13 @@ function Header() {
   const { currentUser } = useContext(AuthContext);
 
   const handleSignOut = () => {
-    signOut(auth).catch((error) => {
-      console.error('Error signing out:', error);
-    });
+    signOut(auth)
+      .then(() => {
+        console.log('User signed out successfully.');
+      })
+      .catch((error) => {
+        console.error('Error signing out:', error);
+      });
   };
 
   return (
@@ -42,26 +46,7 @@ function Header() {
         {/* Navigation Links */}
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav me-auto">
-            <li className="nav-item">
-              <Link to="/banking" className="nav-link">
-                Banking
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/payments" className="nav-link">
-                Payments
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/investments" className="nav-link">
-                Investments
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/fraud-detection" className="nav-link">
-                Fraud Detection
-              </Link>
-            </li>
+            {/* ...navigation links */}
           </ul>
 
           {/* Sign In/Out Buttons */}

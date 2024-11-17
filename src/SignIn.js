@@ -1,14 +1,22 @@
 // SignIn.js
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import "./SignIn.css";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { auth } from './firebaseConfig';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useNavigate, Link } from 'react-router-dom';
+import logo from './logo.webp';
 
 function SignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate();
+  const [passwordVisible, setPasswordVisible] = useState(false);
   const [error, setError] = useState('');
+  const navigate = useNavigate();
+
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
+  };
 
   const handleSignIn = (e) => {
     e.preventDefault();
@@ -23,35 +31,54 @@ function SignIn() {
   };
 
   return (
-    <div className="container py-5">
-      <h2 className="mb-4">Sign In</h2>
-      {error && <div className="alert alert-danger">{error}</div>}
-      <form onSubmit={handleSignIn}>
-        <div className="mb-3">
-          <label className="form-label">Email Address:</label>
+    <div className="signin-container">
+      <img
+        src={logo}
+        alt="Goldman Sachs"
+        className="logo"
+      />
+      <h2>Sign In</h2>
+
+      {error && <div className="error-message">{error}</div>}
+
+      <form className="signin-form" onSubmit={handleSignIn}>
+        <label htmlFor="email">Email Address</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          required
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+
+        <label htmlFor="password">Password</label>
+        <div className="password-input">
           <input
-            type="email"
-            className="form-control"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            type={passwordVisible ? "text" : "password"}
+            id="password"
+            name="password"
             required
-          />
-        </div>
-        <div className="mb-3">
-          <label className="form-label">Password:</label>
-          <input
-            type="password"
-            className="form-control"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            required
           />
+          <span onClick={togglePasswordVisibility} className="toggle-password">
+            {passwordVisible ? <FaEyeSlash /> : <FaEye />}
+          </span>
         </div>
-        <button type="submit" className="btn btn-primary">Sign In</button>
+
+        <div className="remember-me">
+          <input type="checkbox" id="remember" name="remember" />
+          <label htmlFor="remember">Remember Me</label>
+        </div>
+
+        <button type="submit" className="signin-button">Sign In</button>
       </form>
-      <p className="mt-3">
-        Don't have an account? <Link to="/sign-up">Sign Up</Link>
-      </p>
+
+      <div className="links">
+        <Link to="/forgot-password">Forgot Password?</Link>
+        <Link to="/sign-up">Set Up Online Access</Link>
+      </div>
     </div>
   );
 }

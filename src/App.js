@@ -1,14 +1,17 @@
 // App.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { db } from './firebaseConfig';
+import { AuthContext } from './AuthContext';
+import { auth, db } from './firebaseConfig';
 import {
   collection,
+  getDoc,
   getDocs,
   addDoc,
   updateDoc,
   doc,
-  deleteDoc
+  deleteDoc,
+  setDoc,
 } from 'firebase/firestore';
 import Header from './Header';
 import Footer from './Footer';
@@ -29,46 +32,68 @@ import PrivateRoute from './PrivateRoute';
 import './App.css';
 
 function App() {
-  // State variables for new user input
-  const [newName, setNewName] = useState('');
-  const [newAge, setNewAge] = useState(0);
-  // State variable to store the list of users
+  const { currentUser } = useContext(AuthContext);
   const [users, setUsers] = useState([]);
-  // Reference to the 'users' collection in Firestore
-  const usersCollectionRef = collection(db, 'users');
 
-  // Function to create a new user
-  const createUser = async () => {
-    await addDoc(usersCollectionRef, { name: newName, age: Number(newAge) });
-    window.location.reload();
-  };
-
-  // Function to update a user's age
-  const updateUser = async (id, age) => {
-    const userDoc = doc(db, 'users', id);
-    const newFields = { age: age + 1 };
-    await updateDoc(userDoc, newFields);
-    window.location.reload();
-  };
-
-  // Function to delete a user
-  const deleteUser = async (id) => {
-    const userDoc = doc(db, 'users', id);
-    await deleteDoc(userDoc);
-    window.location.reload();
-  };
-
-  // useEffect hook to fetch users when the component mounts
+  // Fetch user-specific data
   useEffect(() => {
-    // Function to get users from Firestore
-    const getUsers = async () => {
-      const data = await getDocs(usersCollectionRef);
-      // Map the fetched data to the users state
-      setUsers(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    const getUserData = async () => {
+      if (!currentUser) {
+        console.log('User is not authenticated. Cannot fetch user data.');
+        return;
+      }
+
+      try {
+        const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          // Set user data to state if needed
+          setUsers([userData]); // Assuming you want to display user data
+        } else {
+          console.log('No user data found.');
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
     };
 
-    getUsers();
-  }, []);
+    getUserData();
+  }, [currentUser]);
+
+  // Function to create or update user data
+  const createOrUpdateUser = async () => {
+    if (!currentUser) {
+      console.log('User is not authenticated. Cannot create or update user.');
+      return;
+    }
+
+    try {
+      await setDoc(doc(db, 'users', currentUser.uid), {
+        // Replace with your user data
+        name: 'User Name',
+        age: 30,
+        // ... other fields
+      });
+      console.log('User data saved successfully.');
+    } catch (error) {
+      console.error('Error saving user data:', error);
+    }
+  };
+
+  // Function to delete user data
+  const deleteUser = async () => {
+    if (!currentUser) {
+      console.log('User is not authenticated. Cannot delete user.');
+      return;
+    }
+
+    try {
+      await deleteDoc(doc(db, 'users', currentUser.uid));
+      console.log('User data deleted successfully.');
+    } catch (error) {
+      console.error('Error deleting user data:', error);
+    }
+  };
 
   return (
     <Router>
@@ -114,4 +139,3 @@ function App() {
 }
 
 export default App;
-
