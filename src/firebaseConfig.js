@@ -1,7 +1,7 @@
 // firebaseConfig.js
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore'; // Import Firestore
-import { getAuth } from 'firebase/auth'; // Import Auth
+import { getAuth } from "firebase/auth"; // Import Auth
 
 // Initialize Firebase using environment variables
 const firebaseConfig = {
