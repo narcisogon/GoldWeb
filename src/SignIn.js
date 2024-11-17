@@ -1,56 +1,59 @@
 // SignIn.js
-import React, { useState } from "react";
-import "./SignIn.css";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
-import logo from './logo.webp';
+import React, { useState } from 'react';
+import { auth } from './firebaseConfig';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { useNavigate, Link } from 'react-router-dom';
 
 function SignIn() {
-    const [passwordVisible, setPasswordVisible] = useState(false);
-    
-    const togglePasswordVisibility = () => {
-        setPasswordVisible(!passwordVisible);
-    };
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+  const [error, setError] = useState('');
 
-    return (
-        <div className="signin-container">
-            <img 
-                src={logo}
-                alt="Goldman Sachs" 
-                className="logo"
-            />
-            <h2>Sign In</h2>
-            
-            <form className="signin-form">
-                <label htmlFor="username">Username</label>
-                <input type="text" id="username" name="username" required />
+  const handleSignIn = (e) => {
+    e.preventDefault();
+    signInWithEmailAndPassword(auth, email, password)
+      .then(() => {
+        navigate('/dashboard'); // Adjust the path as needed
+      })
+      .catch((error) => {
+        setError('Invalid email or password');
+        console.error('Error signing in:', error);
+      });
+  };
 
-                <label htmlFor="password">Password</label>
-                <div className="password-input">
-                    <input 
-                        type={passwordVisible ? "text" : "password"} 
-                        id="password" 
-                        name="password" 
-                        required 
-                    />
-                    <span onClick={togglePasswordVisibility} className="toggle-password">
-                        {passwordVisible ? <FaEyeSlash /> : <FaEye />}
-                    </span>
-                </div>
-
-                <div className="remember-me">
-                    <input type="checkbox" id="remember" name="remember" />
-                    <label htmlFor="remember">Remember Me</label>
-                </div>
-
-                <button type="submit" className="signin-button">Sign in</button>
-            </form>
-            
-            <div className="links">
-                <a href="#forgot">Forgot Username or Password?</a>
-                <a href="#setup">Set Up Online Access</a>
-            </div>
+  return (
+    <div className="container py-5">
+      <h2 className="mb-4">Sign In</h2>
+      {error && <div className="alert alert-danger">{error}</div>}
+      <form onSubmit={handleSignIn}>
+        <div className="mb-3">
+          <label className="form-label">Email Address:</label>
+          <input
+            type="email"
+            className="form-control"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
         </div>
-    );
+        <div className="mb-3">
+          <label className="form-label">Password:</label>
+          <input
+            type="password"
+            className="form-control"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+        <button type="submit" className="btn btn-primary">Sign In</button>
+      </form>
+      <p className="mt-3">
+        Don't have an account? <Link to="/sign-up">Sign Up</Link>
+      </p>
+    </div>
+  );
 }
 
 export default SignIn;

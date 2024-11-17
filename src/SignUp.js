@@ -17,10 +17,10 @@ function SignUp() {
       .then(async (userCredential) => {
         // Account created
         const user = userCredential.user;
-        // Store additional user data in Firestore
+        // Store user data in Firestore
         await setDoc(doc(db, 'users', user.uid), {
           email: user.email,
-          // Add other fields as needed
+          // Add other default fields as needed
         });
         navigate('/dashboard');
       })
