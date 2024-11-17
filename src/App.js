@@ -1,14 +1,18 @@
-//Firebase stuff
-import { useState, useEffect, cloneElement } from 'react'
-import { db } from './firebaseConfig'
-import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc } from "firebase/firestore"
-import firebaseApp from './firebaseConfig';
-
 // App.js
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { db } from './firebaseConfig';
+import {
+  collection,
+  getDocs,
+  addDoc,
+  updateDoc,
+  doc,
+  deleteDoc
+} from 'firebase/firestore';
 import Header from './Header';
 import Footer from './Footer';
+import HomePage from './HomePage';
 import Banking from './Banking';
 import Payments from './Payments';
 import Investments from './Investments';
@@ -18,47 +22,53 @@ import SendMoney from './SendMoney';
 import RequestMoney from './RequestMoney';
 import InvestmentOptions from './InvestmentOptions';
 import FraudDetectionInfo from './FraudDetectionInfo';
+import SignIn from './SignIn';
+import SignUp from './SignUp';
+import Dashboard from './Dashboard';
+import PrivateRoute from './PrivateRoute';
 import './App.css';
-// App.js
-import HomePage from './HomePage'; // Add this line
 
 function App() {
-  //state variables for new user input
-  const [newName, setNewName] = useState("");
+  // State variables for new user input
+  const [newName, setNewName] = useState('');
   const [newAge, setNewAge] = useState(0);
-  //state variable to store the list of users
+  // State variable to store the list of users
   const [users, setUsers] = useState([]);
-   //reference to the 'users' collection in Firestore
-  const usersCollectionRef = collection(db, "users");
-   //function to create a new user
+  // Reference to the 'users' collection in Firestore
+  const usersCollectionRef = collection(db, 'users');
+
+  // Function to create a new user
   const createUser = async () => {
     await addDoc(usersCollectionRef, { name: newName, age: Number(newAge) });
     window.location.reload();
-  }
-  //function to update a user's age
+  };
+
+  // Function to update a user's age
   const updateUser = async (id, age) => {
-    const userDoc = doc(db, "users", id)
-    const newFields = {age: age + 1}
-    await updateDoc(userDoc, newFields)
+    const userDoc = doc(db, 'users', id);
+    const newFields = { age: age + 1 };
+    await updateDoc(userDoc, newFields);
     window.location.reload();
-  }
-  //function to delete a user
+  };
+
+  // Function to delete a user
   const deleteUser = async (id) => {
-    const userDoc = doc(db, "users", id);
+    const userDoc = doc(db, 'users', id);
     await deleteDoc(userDoc);
     window.location.reload();
-  }
-  //useEffect hook to fetch users when the component mounts
+  };
+
+  // useEffect hook to fetch users when the component mounts
   useEffect(() => {
-    //function to get users from Firestore
+    // Function to get users from Firestore
     const getUsers = async () => {
       const data = await getDocs(usersCollectionRef);
-      //map the fetched data to the users state
-      setUsers(data.docs.map((doc) => ({...doc.data(), id: doc.id })));
+      // Map the fetched data to the users state
+      setUsers(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     };
 
     getUsers();
-  }, [])
+  }, []);
 
   return (
     <Router>
@@ -81,6 +91,20 @@ function App() {
             <Route path="/request-money" element={<RequestMoney />} />
             <Route path="/investment-options" element={<InvestmentOptions />} />
             <Route path="/fraud-detection-info" element={<FraudDetectionInfo />} />
+
+            {/* Authentication Routes */}
+            <Route path="/sign-in" element={<SignIn />} />
+            <Route path="/sign-up" element={<SignUp />} />
+
+            {/* Protected Route */}
+            <Route
+              path="/dashboard"
+              element={
+                <PrivateRoute>
+                  <Dashboard />
+                </PrivateRoute>
+              }
+            />
           </Routes>
         </main>
         <Footer />
@@ -90,3 +114,4 @@ function App() {
 }
 
 export default App;
+
