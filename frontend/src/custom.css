@@ -1,0 +1,55 @@
+/* custom.css */
+
+/* Customize primary color to match Goldman Sachs blue */
+.bg-primary {
+  background-color: #002d72 !important;
+}
+
+.text-primary {
+  color: #002d72 !important;
+}
+
+/* Customize buttons */
+.btn-primary {
+  background-color: #002d72;
+  border-color: #002d72;
+}
+
+.btn-primary:hover {
+  background-color: #005bb5;
+  border-color: #005bb5;
+}
+
+/* Hero Section Styles */
+.hero-section {
+  position: relative;
+}
+
+.hero-section::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Dark overlay */
+}
+
+.hero-section .container {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-section h1,
+.hero-section p {
+  color: white;
+}
+
+.hero-section button {
+  margin-top: 20px;
+}
+
+/* Footer */
+.footer {
+  background-color: #002d72;
+}
