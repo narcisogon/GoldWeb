@@ -25,7 +25,7 @@ function Chatbot() {
     setInput('');
     setLoading(true);
 
-    // Temporary console log to check the API URL
+    // Temporary console log to check the API U
     console.log('Backend API URL:', process.env.REACT_APP_BACKEND_API_URL);
 
     try {
