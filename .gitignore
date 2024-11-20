@@ -22,5 +22,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 node_modules/
-.env
-llama-chatbot-backend/venv
+frontend/.env
+llama-chatbot-backend/venv/
+llama-chatbot-backend/.env
+backend\node_modules
+llama-chatbot-backend/node_modules/
+frontend/node_modules/
