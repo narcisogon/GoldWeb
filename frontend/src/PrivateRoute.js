@@ -1,17 +1,18 @@
-// PrivateRoute.js
+// src/PrivateRoute.js
 import React, { useContext } from 'react';
 import { Navigate } from 'react-router-dom';
 import { AuthContext } from './AuthContext';
 
-function PrivateRoute({ children }) {
+const PrivateRoute = ({ children }) => {
   const { currentUser } = useContext(AuthContext);
 
-  if (currentUser === undefined) {
-    // Auth state is still loading
-    return null; // Or a loading spinner
+  if (!currentUser) {
+    // Redirect unauthenticated users to the sign-in page
+    return <Navigate to="/sign-in" replace />;
   }
 
-  return currentUser ? children : <Navigate to="/sign-in" />;
-}
+  // Render the children components if the user is authenticated
+  return children;
+};
 
 export default PrivateRoute;

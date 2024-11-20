@@ -1,6 +1,6 @@
-// Dashboard.js
-import React, { useState, useEffect, useContext } from 'react';
-import { auth, db } from './firebaseConfig';
+// src/Dashboard.js
+import React, { useState, useEffect, useContext, useCallback } from 'react';
+import { db } from './firebaseConfig'; // Correctly imported
 import { AuthContext } from './AuthContext';
 import { collection, getDocs, addDoc } from 'firebase/firestore';
 import InvestmentList from './InvestmentList';
@@ -12,10 +12,15 @@ function Dashboard() {
   const [investments, setInvestments] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Move fetchInvestments outside of useEffect so it can be called elsewhere
-  const fetchInvestments = async () => {
+  /**
+   * fetchInvestments:
+   * Fetches the user's investments from Firestore.
+   * Wrapped with useCallback to memoize the function and prevent unnecessary re-creations.
+   */
+  const fetchInvestments = useCallback(async () => {
     if (!currentUser) {
       console.log('User is not authenticated. Cannot fetch investments.');
+      setLoading(false); // Ensure loading state is updated
       return;
     }
 
@@ -29,13 +34,22 @@ function Dashboard() {
       console.error('Error fetching investments:', error);
       setLoading(false);
     }
-  };
+  }, [currentUser]); // 'db' removed as it's a stable dependency
 
+  /**
+   * useEffect:
+   * Calls fetchInvestments whenever currentUser or fetchInvestments changes.
+   * Ensures that investments are fetched when the user logs in or fetchInvestments is updated.
+   */
   useEffect(() => {
     fetchInvestments();
-  }, [currentUser]);
+  }, [fetchInvestments]);
 
-  // Function to add sample investments
+  /**
+   * addSampleInvestments:
+   * Adds sample investment documents to Firestore.
+   * After adding, it refreshes the investments state to reflect the new data.
+   */
   const addSampleInvestments = async () => {
     if (!currentUser) {
       console.log('User is not authenticated. Cannot add investments.');
